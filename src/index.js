@@ -1,62 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-const Otsikko = props => {
-  return <h1>{props.kurssi.nimi}</h1>;
-};
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      topic: 'anna palautetta',
+      statistic: 'statistiikka',
+      hyva: 0,
+      neutraali: 0,
+      huono: 0
+    };
+    this.addHyva = this.addHyva.bind(this);
+    this.addNeutraali = this.addNeutraali.bind(this);
+    this.addHuono = this.addHuono.bind(this);
+  }
 
-const Sisalto = props => {
-  return (
-    <div>
-      <Osa osa={props.kurssi.osat[0]} />
-      <Osa osa={props.kurssi.osat[1]} />
-      <Osa osa={props.kurssi.osat[2]} />
-    </div>
-  );
-};
-
-const Osa = props => {
-  return (
-    <p>
-      {props.osa.nimi} {props.osa.tehtavia}
-    </p>
-  );
-};
-
-const Yhteensa = props => {
-  return (
-    <p>
-      yhteensä {props.kurssi.osat[0].tehtavia + props.kurssi.osat[1].tehtavia + props.kurssi.osat[2].tehtavia} tehtävää
-    </p>
-  );
-};
-
-const App = () => {
-  const kurssi = {
-    nimi: 'Half Stack -sovelluskehitys',
-    osat: [
-      {
-        nimi: 'Reactin perusteet',
-        tehtavia: 10
-      },
-      {
-        nimi: 'Tiedonvälitys propseilla',
-        tehtavia: 7
-      },
-      {
-        nimi: 'Komponenttien tila',
-        tehtavia: 14
-      }
-    ]
+  addHyva = () => {
+    this.setState(prevState => ({
+      hyva: prevState.hyva + 1
+    }));
   };
 
-  return (
-    <div>
-      <Otsikko kurssi={kurssi} />
-      <Sisalto kurssi={kurssi} />
-      <Yhteensa kurssi={kurssi} />
-    </div>
-  );
-};
+  addNeutraali = () => {
+    this.setState(prevState => ({
+      neutraali: prevState.neutraali + 1
+    }));
+  };
+
+  addHuono = () => {
+    this.setState(prevState => ({
+      huono: prevState.huono + 1
+    }));
+  };
+
+  render() {
+    return (
+      <div>
+        <h1>{this.state.topic}</h1>
+        <br />
+        <button onClick={this.addHyva}>Hyvä</button>
+        <button onClick={this.addNeutraali}>Neutraali</button>
+        <button onClick={this.addHuono}>Huono</button>
+        <br />
+        <h1>{this.state.statistic}</h1>
+        <br />
+        <div>Hyvä {this.state.hyva}</div>
+        <div>Neutraali {this.state.neutraali}</div>
+        <div>Huono {this.state.huono}</div>
+      </div>
+    );
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
