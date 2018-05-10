@@ -39,29 +39,6 @@ class App extends Component {
   };
 
   render() {
-    const Statistics = () => {
-      return (
-        <div>
-          <Statistic name="Hyvä" result={this.state.hyva} />
-          <Statistic name="Neutraali" result={this.state.neutraali} />
-          <Statistic name="Huono" result={this.state.huono} />
-          <Statistic name="Keskiarvo" result={keskiarvo()} />
-          <Statistic name="Positiivisia" result={prosentti()} merkki="%" />
-        </div>
-      );
-    };
-
-    const Statistic = props => {
-      return (
-        <div>
-          {props.name} {props.result}
-          {props.merkki}
-        </div>
-      );
-    };
-
-    const Button = props => <button onClick={props.handleClick}>{props.text}</button>;
-
     const prosentti = () => {
       return (this.state.hyva / this.state.totalVotes * 100).toFixed(1);
     };
@@ -74,13 +51,17 @@ class App extends Component {
       <div>
         <h1>{this.state.topic}</h1>
         <br />
-        <Button text="Hyvä" handleClick={this.addHyva} />
-        <Button text="Neutraali" handleClick={this.addNeutraali} />
-        <Button text="Huono" handleClick={this.addHuono} />
+        <button onClick={this.addHyva}>Hyvä</button>
+        <button onClick={this.addNeutraali}>Neutraali</button>
+        <button onClick={this.addHuono}>Huono</button>
         <br />
         <h1>{this.state.statistic}</h1>
         <br />
-        <Statistics />
+        <div>Hyvä {this.state.hyva}</div>
+        <div>Neutraali {this.state.neutraali}</div>
+        <div>Huono {this.state.huono}</div>
+        <div>Keskiarvo {keskiarvo()}</div>
+        <div>Positiviisia {prosentti()}% </div>
       </div>
     );
   }
