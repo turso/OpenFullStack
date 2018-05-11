@@ -15,7 +15,7 @@ class App extends Component {
     this.addValue = this.addValue.bind(this);
   }
 
-  addValue = (arvo, kokonaisArvo, nappi) => () => {
+  addValue = (arvo, kokonaisArvo, nappi) => {
     if (nappi === 'hyva') {
       this.setState({ hyva: arvo, totalVotes: kokonaisArvo });
     } else if (nappi === 'neutraali') {
