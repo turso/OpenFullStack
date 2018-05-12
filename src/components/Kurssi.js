@@ -31,10 +31,10 @@ const Kurssi = ({ kurssit }) => {
   return (
     <div>
       {kurssit.map(kurssi => (
-        <div>
-          <Otsikko key={kurssi.id} otsikko={kurssi.nimi} />
-          <Sisalto key={kurssi.osat.id} kurssi={kurssi.osat} />
-          <Yhteensa key={kurssi.nimi} kurssit={kurssi.osat} />
+        <div key={kurssi.id}>
+          <Otsikko otsikko={kurssi.nimi} />
+          <Sisalto kurssi={kurssi.osat} />
+          <Yhteensa kurssit={kurssi.osat} />
         </div>
       ))}
     </div>
