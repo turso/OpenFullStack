@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Otsikko = props => {
-  return <h1>{props.kurssi.nimi}</h1>;
+const Otsikko = ({ kurssi }) => {
+  return <h1>{kurssi.nimi}</h1>;
 };
 
-const Sisalto = props => {
-  return <div>{props.kurssi.osat.map(kurssi => <Osa key={kurssi.id} kurssi={kurssi} />)}</div>;
+const Sisalto = ({ kurssi }) => {
+  return <div>{kurssi.osat.map(kurssi => <Osa key={kurssi.id} kurssi={kurssi} />)}</div>;
 };
 
 const Osa = ({ kurssi }) => {
@@ -16,11 +16,24 @@ const Osa = ({ kurssi }) => {
   );
 };
 
+const Yhteensa = ({ kurssi }) => {
+  return (
+    <div>
+      Yhteensä{' '}
+      {kurssi.osat.map(kurssi => kurssi.tehtavia).reduce(function(accumulator, currentValue) {
+        return accumulator + currentValue;
+      }, 0)}{' '}
+      Tehtävää
+    </div>
+  );
+};
+
 const Kurssi = ({ kurssi }) => {
   return (
     <div>
       <Otsikko kurssi={kurssi} />
       <Sisalto kurssi={kurssi} />
+      <Yhteensa kurssi={kurssi} />
     </div>
   );
 };
