@@ -7,8 +7,6 @@ class App extends React.Component {
       persons: [{ name: 'Arto Hellas' }],
       newName: ''
     };
-    this.addNewPerson = this.addNewPerson.bind(this);
-    this.addPerson = this.addPerson.bind(this);
   }
 
   addPerson = event => {
@@ -16,6 +14,8 @@ class App extends React.Component {
     const personObject = {
       name: this.state.newName
     };
+    console.log('personObject', personObject);
+    console.log('state', this.state.persons);
 
     const persons = this.state.persons.concat(personObject);
 
@@ -26,7 +26,6 @@ class App extends React.Component {
   };
 
   addNewPerson = event => {
-    console.log(event.target.value);
     this.setState({ newName: event.target.value });
   };
 
