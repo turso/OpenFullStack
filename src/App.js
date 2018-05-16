@@ -8,7 +8,8 @@ class App extends Component {
     super(props);
     this.state = {
       data: [],
-      filter: ''
+      filter: '',
+      country: ''
     };
   }
 
@@ -23,11 +24,20 @@ class App extends Component {
     this.setState({ filter: event.target.value });
   };
 
+  showDetails = country => {
+    this.setState({ country });
+  };
+
   render() {
     return (
       <div>
         find countries: <CountryFilter filter={this.state.filter} input={this.addFilter} />
-        <CountryList data={this.state.data} filter={this.state.filter} />
+        <CountryList
+          data={this.state.data}
+          filter={this.state.filter}
+          showDetails={this.showDetails}
+          country={this.state.country}
+        />
       </div>
     );
   }

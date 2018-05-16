@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CountryList = ({ data, filter }) => {
+const CountryList = ({ data, filter, showDetails, country }) => {
   const countryToShow =
     filter === ''
       ? data
@@ -8,10 +8,7 @@ const CountryList = ({ data, filter }) => {
           return country.name.indexOf(filter) !== -1;
         });
 
-  const showDetails = country => {
-    console.log('KLIKATTU!!');
-    console.log('country', country);
-    console.log('nimi', country.name);
+  if (country !== '') {
     return (
       <div>
         <div>
@@ -26,9 +23,7 @@ const CountryList = ({ data, filter }) => {
         </div>
       </div>
     );
-  };
-
-  if (countryToShow.length === 1) {
+  } else if (countryToShow.length === 1) {
     return (
       <div>
         {countryToShow.map(country => (
