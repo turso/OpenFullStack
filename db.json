@@ -16,19 +16,29 @@
       "id": 3
     },
     {
-      "name": "Lea Kutvonen",
-      "number": "040-123456",
-      "id": 4
-    },
-    {
       "name": "Oliver",
       "number": "045-1256938",
       "id": 5
     },
     {
-      "name": "Keksi",
-      "number": "0403043",
-      "id": 6
+      "id": 6,
+      "name": "Pia",
+      "number": "040-5177961"
+    },
+    {
+      "id": 7,
+      "name": "Ruupert",
+      "number": "0454-22323"
+    },
+    {
+      "id": 8,
+      "name": "Oliber",
+      "number": "0434-4544545"
+    },
+    {
+      "id": 9,
+      "name": "Joku",
+      "number": "043433434"
     }
   ]
 }

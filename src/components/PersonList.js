@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PersonList = ({ persons, filter }) => {
+const PersonList = ({ persons, filter, removePerson }) => {
   const personsToShow =
     filter === ''
       ? persons
@@ -12,7 +12,7 @@ const PersonList = ({ persons, filter }) => {
     <div>
       {personsToShow.map(person => (
         <p key={person.name}>
-          {person.name} {person.number}{' '}
+          {person.name} {person.number} <button onClick={() => removePerson(person.id, person.name)}>poista</button>
         </p>
       ))}
     </div>
