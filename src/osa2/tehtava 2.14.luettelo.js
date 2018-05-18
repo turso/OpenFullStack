@@ -1,8 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import SearchFilter from './components/SeachFilter';
 import PersonForm from './components/PersonForm';
 import PersonList from './components/PersonList';
-import personService from './services/Luettelo';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,7 +16,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    personService.getAll().then(response => {
+    console.log('didmount!');
+    axios.get('http://localhost:3001/persons').then(response => {
+      console.log('promise fullfilled');
+      console.log('response', response);
       this.setState({ persons: response.data });
     });
   }
@@ -37,7 +40,7 @@ class App extends React.Component {
       });
       alert('Nimi on jo listassa!');
     } else {
-      personService.create(personObject).then(response => {
+      axios.post('http://localhost:3001/persons', personObject).then(response => {
         this.setState({
           persons: this.state.persons.concat(personObject),
           newName: ''
