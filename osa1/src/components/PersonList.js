@@ -8,6 +8,8 @@ const PersonList = ({ persons, filter, removePerson }) => {
           return person.name.indexOf(filter) !== -1;
         });
 
+  console.log('PERSONSTOSHOW', personsToShow);
+
   return (
     <div>
       {personsToShow.map(person => (

@@ -11,7 +11,6 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      newId: '',
       filter: ''
     };
   }
@@ -25,12 +24,9 @@ class App extends React.Component {
   addPerson = event => {
     event.preventDefault();
     personService.getAll().then(response => {
-      const lastId = response.data.map(person => person.id).pop();
-
       const personObject = {
         name: this.state.newName,
-        number: this.state.newNumber,
-        id: lastId + 1
+        number: this.state.newNumber
       };
 
       console.log('personObject', personObject);
@@ -39,21 +35,29 @@ class App extends React.Component {
 
       if (isNameAlready) {
         if (window.confirm(this.state.newName + ' on jo luettelossa, korvataanko vanha numero uudella?')) {
-          personService
-            .getAll()
-            .then(response => {
-              const oldData = response.data.find(person => person.name === this.state.newName);
+          const oldData = response.data.find(person => person.name === this.state.newName);
+          console.log('OLD DATA', oldData);
 
-              if (!oldData) {
-                throw new Error(`henkilo ${personObject.name} on jo valitettavasti poistettu palvelimelta`);
-              }
-              personService.update(oldData.id, personObject).then(response => {
-                this.setState({
-                  persons: this.state.persons.map(person => (person.id !== oldData.id ? person : personObject)),
-                  newName: '',
-                  newNumber: '',
-                  newId: ''
-                });
+          const personObject = {
+            name: this.state.newName,
+            number: this.state.newNumber,
+            id: oldData.id
+          };
+
+          console.log('personObject EHDOSSA', personObject);
+
+          if (!oldData) {
+            throw new Error(`henkilo ${personObject.name} on jo valitettavasti poistettu palvelimelta`);
+          }
+          personService
+            .update(oldData.id, personObject)
+            .then(response => {
+              console.log('THIS STATE PERSONS', this.state.persons);
+              this.setState({
+                persons: this.state.persons.map(person => (person.id !== oldData.id ? person : personObject)),
+                newName: '',
+                newNumber: '',
+                newId: ''
               });
             })
             .catch(error => {
@@ -62,9 +66,13 @@ class App extends React.Component {
         }
       } else {
         personService.create(personObject).then(response => {
-          this.setState({
-            persons: this.state.persons.concat(personObject),
-            newName: ''
+          personService.getAll().then(response => {
+            this.setState({
+              persons: response.data,
+              newName: '',
+              newNumber: '',
+              filter: ''
+            });
           });
         });
       }
@@ -87,16 +95,18 @@ class App extends React.Component {
     const message = `poistetaanko ${name} ?`;
 
     if (window.confirm(message)) {
-      personService
-        .destroy(id)
-        .then(response => {
-          personService.getAll().then(response => {
-            this.setState({ persons: response.data });
+      personService.getAll().then(response => {
+        personService
+          .destroy(id)
+          .then(response => {
+            personService.getAll().then(response => {
+              this.setState({ persons: response.data });
+            });
+          })
+          .catch(error => {
+            console.log(error, 'fail!');
           });
-        })
-        .catch(error => {
-          console.log('fail!');
-        });
+      });
     }
   };
 
@@ -109,7 +119,7 @@ class App extends React.Component {
           addPerson={this.addPerson}
           newName={this.state.newName}
           addNewName={this.addNewName}
-          newNumber={this.stateNewNumber}
+          newNumber={this.state.newNumber}
           addNewNumber={this.addNewNumber}
         />
         <h2>Numerot</h2>
